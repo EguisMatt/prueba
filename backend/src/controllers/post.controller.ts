@@ -9,9 +9,12 @@ export const registerUser = async (req: Request, res: Response) =>{
     if (!name || !email || !password || !phone || !confirmPassword) {
       throw new Error(" hacen falta campos ")
     }
+    if (password !== confirmPassword) {
+      throw new Error("passwords do not match");
+    }
 
     const checkExistingUser = [name, email];
-    const verifyExistingUser = 'SELECT * FROM management where name = ? OR email = ? ';
+    const verifyExistingUser = 'SELECT * FROM users where name = ? OR email = ? ';
 
     const [existingUser] = await pool.query<RowDataPacket[]>(verifyExistingUser, checkExistingUser);
     if(existingUser.length > 0){
@@ -20,7 +23,7 @@ export const registerUser = async (req: Request, res: Response) =>{
 
     const saltRounds : number = 10;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
-    const insertQuery = 'INSERT INTO management(name,email,password,phone) VALUES(?,?,?,?)';
+    const insertQuery = 'INSERT INTO users(name,email,password,phone) VALUES(?,?,?,?)';
     const insertvalues = [name,email,hashedPassword,phone];
 
     const [result] = await pool.query<ResultSetHeader>(insertQuery,insertvalues);
