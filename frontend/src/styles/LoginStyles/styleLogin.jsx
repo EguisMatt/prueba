@@ -123,3 +123,28 @@ export const Input = styled.input`
     font-family: "Outfit";
   }
 `;
+
+export const ContainerButtonLogin = styled.div`
+justify-content: center;
+align-items: center;
+border: red solid 2px;
+position: absolute;
+  width: 100%;
+  height: 9%;
+  margin-top: 80px;
+`
+
+export const LoginButton = styled.button`
+  position: relative;
+  padding: 10px 20px;
+  background-color: #3498db;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #2c3e50;
+  }
+`;

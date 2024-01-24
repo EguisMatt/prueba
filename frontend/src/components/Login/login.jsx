@@ -9,7 +9,9 @@ import {
   ContenInputs,
   InputBox,
   Input,
-  CLabel
+  CLabel,
+  LoginButton,
+  ContainerButtonLogin
 } from "../../styles/LoginStyles/styleLogin";
 const Login = () => {
   return (
@@ -29,14 +31,6 @@ const Login = () => {
                       type="email"
                       required
                     />
-                    <CLabel>Nombre</CLabel>
-                  </InputBox>
-                  <InputBox>
-                    <i className="fa-solid fa-envelope"></i>
-                    <Input
-                      type="email"
-                      required
-                    />
                     <CLabel>Email</CLabel>
                   </InputBox>
                   <InputBox>
@@ -50,8 +44,11 @@ const Login = () => {
                 </ContenInputs>
               </ContainInputs>
             </Form>
+            <ContainerButtonLogin>
+            <LoginButton>LOGIN</LoginButton>
+            </ContainerButtonLogin>
           </ContenForm>
-        </ContenLogin>
+        </ContenLogin>        
       </ContainerPageLogin>
   )
 };
