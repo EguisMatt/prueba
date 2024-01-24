@@ -1,56 +1,60 @@
-import {
-  ContainerPageLogin,
-  ContenLogin,
-  // ContenTittle,
-  ContenForm,
-  Form,
-  ContainInputs,
-  TittleInputs,
-  ContenInputs,
-  InputBox,
-  Input,
-  CLabel,
-  LoginButton,
-  ContainerButtonLogin
-} from "../../styles/LoginStyles/styleLogin";
+import {ContainerPageLogin, HeaderLogin,TextLogin, UnderlineLogin,InputsLogin,InputContenLogin, Input,SubmitContainer,Submit,ForgotPassword} from "../../styles/LoginStyles/styleLogin";
+import { IoIosMail } from "react-icons/io";
+import { GiPadlockOpen } from "react-icons/gi";
+import {useNavigate} from "react-router-dom";
+import { useState } from "react";
+import axios from "axios";
+
+
+
+
 const Login = () => {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState('');
+  const [password,setPassword] = useState('');
+
+
+  const handleLogin = async() => {
+    try {
+      const apiBaseBack = import.meta.env.VITE_URL_BACKEND;
+      const response = await axios.post(`${apiBaseBack}/login`,{
+          email:email,
+          password:password
+      })
+      console.log(response.data)
+      navigate('/home/*')
+    } catch (error) {
+      console.error(error)
+    }
+  }
+  
+
+
   return (
     <ContainerPageLogin>
-        <ContenLogin>
+        <HeaderLogin>
+            <TextLogin>Login</TextLogin>
+            <UnderlineLogin></UnderlineLogin>
+        </HeaderLogin>
+        <InputsLogin>
+            <InputContenLogin>
+              <IoIosMail className="logo"/>
+              <Input type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)}/>
+            </InputContenLogin>
 
-          <ContenForm>
-            <Form>
-              <ContainInputs>
-                <TittleInputs className="titulo">
-                  Bienvenidos de nuevo
-                </TittleInputs>
-                <ContenInputs>
-                  <InputBox>
-                    <i className="fa-solid fa-envelope"></i>
-                    <Input
-                      type="email"
-                      required
-                    />
-                    <CLabel>Email</CLabel>
-                  </InputBox>
-                  <InputBox>
-                    <i className="fa-solid fa-lock"></i>
-                    <Input
-                      type="password"
-                      required
-                    />
-                    <CLabel>Contraseña</CLabel>
-                  </InputBox>
-                </ContenInputs>
-              </ContainInputs>
-            </Form>
-            <ContainerButtonLogin>
-            <LoginButton>LOGIN</LoginButton>
-            </ContainerButtonLogin>
-          </ContenForm>
-        </ContenLogin>        
-      </ContainerPageLogin>
-  )
+            <InputContenLogin>
+              <GiPadlockOpen className="logo"/>
+              <Input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)}/>
+            </InputContenLogin>
+        </InputsLogin>
+        <ForgotPassword>Lost Password ? <span>Click Here!</span></ForgotPassword>
+        <SubmitContainer>
+            <Submit onClick={()=>{navigate('/register/*')}}>Sign Up</Submit>
+            <Submit onClick={handleLogin}>Login</Submit>
+        </SubmitContainer>
+    </ContainerPageLogin>
+  );
+
 };
 
 export default Login;

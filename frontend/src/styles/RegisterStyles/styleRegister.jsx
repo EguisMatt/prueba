@@ -1,17 +1,18 @@
 import styled from "styled-components";
 
-export const ContainerPageLogin = styled.div`
-border-radius: 10px;
+export const ContainerPageRegister = styled.div`
+  border-radius: 10px;
   display: flex;
   flex-direction: column;
   margin: auto;
-  margin-top: 200px;
+  margin-top: 10px;
   width: 600px;
+  height: 850px;
   background: #ffff;
   padding-bottom: 30px;
 `;
 export const HeaderLogin = styled.div`
-/* border: 1px solid black; */
+border: 1px solid black;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -19,6 +20,13 @@ export const HeaderLogin = styled.div`
   width: 100%;
   margin-top: 20px;
 `;
+
+export const BoxIcon = styled.div`
+  border: 1px solid red;
+  width: 10%;
+  width: 100%;
+
+`
 export const TextLogin = styled.div`
 /* border: 1px solid red; */
   color: #3c0093;
@@ -39,6 +47,7 @@ export const InputsLogin = styled.form`
   flex-direction: column;
   gap: 25px;
 `;
+
 export const InputContenLogin = styled.div`
 /* border: 1px solid pink; */
   display: flex;
@@ -59,12 +68,12 @@ export const Input = styled.input`
   font-size: 19px;
 
 `;
-export const ForgotPassword = styled.div`
+export const CheckBox = styled.input`
 /* border: 1px solid violet; */
-  padding-left: 62px;
-  margin-top: 27px;
-  color: #797979;
-  font-size: 18px;
+  width: 50px;
+  margin-top:10px;
+  height:15px;
+  
 
   span{
     color: #4c00b4;
@@ -98,3 +107,11 @@ export const Submit = styled.button`
   cursor: pointer;
 
 `;
+
+export const ContentPolicy = styled.div`
+  border: 1px solid black;
+  padding-left: 62px;
+  margin-top: 27px;
+  /* background-color: #797979; */
+  font-size: 18px;
+`
