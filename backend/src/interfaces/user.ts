@@ -5,3 +5,8 @@ export interface User{
   phone: number;
   confirmPassword: string;
 }
+
+export interface Validation{
+  email: string;
+  password: string;
+}

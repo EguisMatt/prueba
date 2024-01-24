@@ -12,14 +12,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.registerUser = void 0;
+exports.login = exports.registerUser = void 0;
 const dbconfig_1 = require("../config/dbconfig");
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
+const config_1 = require("../config/config");
 const registerUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { name, email, password, phone, confirmPassword } = req.body;
         if (!name || !email || !password || !phone || !confirmPassword) {
-            throw new Error(" hacen falta campos ");
+            throw new Error(" missing fields ");
         }
         if (password !== confirmPassword) {
             throw new Error("passwords do not match");
@@ -49,3 +51,38 @@ const registerUser = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     }
 });
 exports.registerUser = registerUser;
+const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { email, password } = req.body;
+        if (!email || !password) {
+            throw new Error("Missing params");
+        }
+        const checkExistingUser = [email];
+        const verifyExistingUser = 'SELECT * FROM users where email = ?';
+        const [result] = yield dbconfig_1.pool.query(verifyExistingUser, checkExistingUser);
+        if (result.length > 0) {
+            const compassword = yield bcrypt_1.default.compare(password, result[0].password);
+            if (!compassword) {
+                console.error('La clave secreta no está definida.');
+                return res.status(500).json({ message: 'password incorrect' });
+            }
+            else {
+                if (config_1.SECRET_KEY) {
+                    const token = jsonwebtoken_1.default.sign({
+                        name: result[0].name,
+                        email: result[0].email
+                    }, config_1.SECRET_KEY, {
+                        expiresIn: '1h'
+                    });
+                    return res.status(200).json({ token });
+                }
+            }
+        }
+        // El bloque catch se encuentra aquí para manejar errores específicos si ocurren
+    }
+    catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Error en el servidor' });
+    }
+});
+exports.login = login;

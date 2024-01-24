@@ -28,3 +28,4 @@ const express_1 = require("express");
 const postControllers = __importStar(require("../controllers/post.controller"));
 exports.postrouter = (0, express_1.Router)();
 exports.postrouter.post('/register', postControllers.registerUser);
+exports.postrouter.post('/login', postControllers.login);
