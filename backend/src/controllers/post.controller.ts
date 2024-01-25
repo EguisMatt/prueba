@@ -71,11 +71,13 @@ export const login = async (req: Request, res: Response) => {
             return res.status(200).json({ token });
         }
       }
+    }else{
+      res.status(401).json({message: "not found email"})
     }
 
     // El bloque catch se encuentra aquí para manejar errores específicos si ocurren
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ message: 'Error en el servidor' });
+    return res.status(401).json({ message: 'Error en el servidor' });
   }
 };

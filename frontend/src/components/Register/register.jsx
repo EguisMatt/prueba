@@ -1,4 +1,4 @@
-import {ContainerPageRegister, HeaderLogin,TextLogin, UnderlineLogin,InputsLogin,InputContenLogin, Input,SubmitContainer,Submit,CheckBox,ContentPolicy,BoxIcon} from "../../styles/RegisterStyles/styleRegister";
+import {} from "../../styles/RegisterStyles/styleRegister";
 import axios from 'axios';
 import { IoIosMail } from "react-icons/io";
 import { GiPadlockOpen } from "react-icons/gi";
@@ -42,74 +42,7 @@ const Register = () => {
 
 
   return (
-    <ContainerPageRegister>
-        <HeaderLogin>
-          <BoxIcon>
-            <IoMdExit className="exit-logo"/>
-          </BoxIcon>
-            <TextLogin>Register</TextLogin>
-            <UnderlineLogin></UnderlineLogin>
-        </HeaderLogin>
-        <InputsLogin>
-
-
-            <InputContenLogin>
-              <FaUser className="logo"/>
-              <Input 
-              type="text" 
-              placeholder="Name"
-              onChange={(e) => setName(e.target.value)}
-              />
-            </InputContenLogin>
-
-
-            <InputContenLogin >
-              <IoIosMail className="logo"/>
-              <Input 
-              type="email" 
-              placeholder="Email"
-              onChange={(e) => setEmail(e.target.value)}
-              />
-            </InputContenLogin>
-
-
-            <InputContenLogin>
-              <FaPhoneAlt className="logo"/>
-              <Input 
-              type="number" 
-              placeholder="Phone"
-              onChange={(e) => setPhone(e.target.value)}
-              />
-            </InputContenLogin>
-
-            <InputContenLogin>
-              <GiPadlockOpen className="logo"/>
-              <Input 
-              type="password" 
-              placeholder="Password"
-              onChange={(e) => setPassword(e.target.value)}
-              />
-            </InputContenLogin>
-
-
-            <InputContenLogin>
-              <GiPadlockOpen className="logo"/>
-              <Input 
-              type="password" 
-              placeholder="ConfirmPassword"
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              />
-            </InputContenLogin>
-
-        </InputsLogin>
-        <ContentPolicy>
-          <span>Do You Accept The <a href="http://surl.li/psoqr">Privacy Policy?</a></span>
-          <CheckBox type="checkbox"></CheckBox>
-        </ContentPolicy>
-        <SubmitContainer>
-            <Submit onClick={handleFormSubmit}>Sign Up</Submit>
-        </SubmitContainer>
-    </ContainerPageRegister>
+    <div>HOLA REGISTER</div>
   );
 };
 

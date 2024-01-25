@@ -1,100 +1,98 @@
 import styled from "styled-components";
 
-export const ContainerPageLogin = styled.div`
-border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  margin: auto;
-  margin-top: 200px;
-  width: 600px;
-  background: #ffff;
-  padding-bottom: 30px;
+export const Wrapper = styled.div`
+  width: 420px;
+  background-color: transparent;
+  border: 2px solid rgba(255,255,255,.2);
+  backdrop-filter: blur(30px);
+  box-shadow: 0 0 10px rgba(0,0,0, .2);
+  color: #fff;
+  border-radius: 10px;
+  padding: 30px 40px;
+  h1{
+    font-size: 36px;
+    text-align: center;
+  }
 `;
-export const HeaderLogin = styled.div`
-/* border: 1px solid black; */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1px;
+
+export const InputBox = styled.div`
+  position: relative;
   width: 100%;
-  margin-top: 20px;
-`;
-export const TextLogin = styled.div`
-/* border: 1px solid red; */
-  color: #3c0093;
-  font-size: 48px;
-  font-weight: 700;
-`;
-export const UnderlineLogin = styled.div`
-  width: 61px;
-  height: 6px;
-  background: #3c0093;
-  border-radius: 9px;
-
-`;
-export const InputsLogin = styled.form`
-/* border: 1px solid blue; */
-  margin-top: 55px;
-  display: flex;
-  flex-direction: column;
-  gap: 25px;
-`;
-export const InputContenLogin = styled.div`
-/* border: 1px solid pink; */
-  display: flex;
-  align-items: center;
-  margin: auto;
-  width: 480px;
-  height: 80px;
-  background: #eaeaea;
-  border-radius: 6px;
-  `;
-export const Input = styled.input`
   height: 50px;
-  width: 400px;
-  background: transparent;
-  border: none;
-  outline: none;
-  color: #797979;
-  font-size: 19px;
+  margin: 30px 0;
+
+  input{
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: 2px solid rgba(255,255,255, .2);
+    outline: none;
+    border-radius: 40px;
+    font-size: 16px;
+    color: #fff;
+    padding: 20px 45px 20px 20px;
+
+    input::placeholder{
+      color: #fff;
+    }
+  }
+`;
+
+
+export const Form = styled.form`
 
 `;
-export const ForgotPassword = styled.div`
-/* border: 1px solid violet; */
-  padding-left: 62px;
-  margin-top: 27px;
-  color: #797979;
-  font-size: 18px;
 
-  span{
-    color: #4c00b4;
-    cursor: pointer;
+export const RememberForgot = styled.div`
+  display: flex;
+  justify-content: space-between;
+  font-size: 14.5px;
+  margin: -15px 0 15px;
+
+  label input{
+    accent-color: #fff;
+    margin-right: 4px;
   }
 
   a{
-    color: #044bfc;
-    cursor: pointer;
+    color: #fff;
+    text-decoration: none
+  }
+
+  a &:hover{
+    text-decoration: underline
   }
 `;
-export const SubmitContainer = styled.div`
-/* border: 1px solid magenta; */
-  display: flex;
-  gap: 30px;
-  margin: 60px auto;
+
+export const ButtonSubmit = styled.button`
+    width: 100%;
+    height: 45px;
+    background: #fff;
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    box-shadow: 0 0 10px rgba(0,0,0, .1);
+    cursor: pointer;
+    font-size: 16px;
+    color: #333;
+    font-weight: 700px;
 `;
 
-export const Submit = styled.button`
-/* border: 1px solid red; */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 220px;
-  height: 59px;
-  color: #fff;
-  background: #4c00b4;
-  border-radius: 50px;
-  font-size: 19px;
-  font-weight: 700;
-  cursor: pointer;
+export const RegisterLink = styled.div`
+  font-size: 14.5px;
+  text-align: center;
+  margin: 20px 0 15;
+
+  p a{
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+
+    &:hover{
+      text-decoration: underline;
+    }
+  }
+
 
 `;
+

@@ -1,24 +1,31 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box ;
+
+}
+
+
 body, html {
   margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
   font-family: 'Outfit', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: linear-gradient(#2a00b7, #42006C);
-  overflow: hidden;
+  background: url(./components/assets/background.jpg) no-repeat;
   height: 100vh;
   width: 100%;
+  background-size: cover;
+  background-position: center;
 }
 
-.exit-logo{
-  border: 1px solid rgb(255, 2, 2);
-  font-size: 30px;
-}
-
-.logo{
-  margin: 0px 30px  ;
-}
-
-.gray{
-  background: #EAEAEA;
-  color: #676767;
+.icon{
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
 }

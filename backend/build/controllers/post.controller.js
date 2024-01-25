@@ -78,11 +78,14 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 }
             }
         }
+        else {
+            res.status(401).json({ message: "not found email" });
+        }
         // El bloque catch se encuentra aquí para manejar errores específicos si ocurren
     }
     catch (error) {
         console.error(error);
-        return res.status(500).json({ message: 'Error en el servidor' });
+        return res.status(401).json({ message: 'Error en el servidor' });
     }
 });
 exports.login = login;
