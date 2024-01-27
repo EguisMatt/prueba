@@ -9,3 +9,5 @@ export const PORT: string | undefined = process.env.PORT;
 export const DB_DATABASE: string | undefined = process.env.DB_DATABASE;
 export const DB_PASSWORD: string | undefined = process.env.DB_PASSWORD;
 export const SECRET_KEY: string | undefined = process.env.SECRET_KEY;
+export const USER_PWD: string | undefined = process.env.USER_PWD;
+export const USER_PASS: string | undefined = process.env.USER_PASS;

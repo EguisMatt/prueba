@@ -32,7 +32,7 @@ export const InputBox = styled.div`
     color: #fff;
     padding: 20px 45px 20px 20px;
 
-    input::placeholder{
+    &::placeholder{
       color: #fff;
     }
   }
@@ -60,7 +60,7 @@ export const RememberForgot = styled.div`
   }
 
   a &:hover{
-    text-decoration: underline
+    text-decoration: underline;
   }
 `;
 
@@ -82,6 +82,7 @@ export const RegisterLink = styled.div`
   font-size: 14.5px;
   text-align: center;
   margin: 20px 0 15;
+  margin-top: 20px;
 
   p a{
     color: #fff;
@@ -90,9 +91,9 @@ export const RegisterLink = styled.div`
 
     &:hover{
       text-decoration: underline;
+      transition: all 0.2;
+      color: aqua; 
     }
   }
-
-
 `;
 

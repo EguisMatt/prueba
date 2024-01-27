@@ -17,26 +17,67 @@ const dbconfig_1 = require("../config/dbconfig");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const config_1 = require("../config/config");
+const nodemailer_1 = __importDefault(require("nodemailer"));
 const registerUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { name, email, password, phone, confirmPassword } = req.body;
         if (!name || !email || !password || !phone || !confirmPassword) {
-            throw new Error(" missing fields ");
+            throw new Error("missing fields");
+        }
+        if (typeof name !== 'string' || typeof email !== 'string' || typeof password !== 'string' || typeof confirmPassword !== 'string') {
+            return res.status(422).json({ message: 'error al escribir el tipo de cada dato' });
+        }
+        if (name.trim() === "" || email.trim() === "" || password.trim() === "" || confirmPassword.trim() === "") {
+            return res.status(400).json({ message: 'the field cannot contain spaces' });
+        }
+        const nameRegex = /^[a-zA-Z\s]+$/;
+        if (!nameRegex.test(name)) {
+            return res.status(422).json({ message: 'invalid characters in the "name" field' });
+        }
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@(?!.*\.camilo)[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!emailRegex.test(email)) {
+            return res.status(422).json({ message: 'invalid characters in the "email" field' });
         }
         if (password !== confirmPassword) {
-            throw new Error("passwords do not match");
+            return res.status(401).json({ message: 'Passwords do not match' });
         }
-        const checkExistingUser = [name, email];
-        const verifyExistingUser = 'SELECT * FROM users where name = ? OR email = ? ';
+        const checkExistingUser = [email];
+        const verifyExistingUser = 'SELECT * FROM users where email = ?';
         const [existingUser] = yield dbconfig_1.pool.query(verifyExistingUser, checkExistingUser);
         if (existingUser.length > 0) {
-            return res.status(422).json('The user or email already exists');
+            return res.status(409).json({ message: 'The email already exists' });
         }
+        const enviarEmail = () => __awaiter(void 0, void 0, void 0, function* () {
+            try {
+                const config = {
+                    host: 'smtp.gmail.com',
+                    port: 587,
+                    auth: {
+                        user: config_1.USER_PWD,
+                        pass: config_1.USER_PASS
+                    }
+                };
+                const mensaje = {
+                    from: email,
+                    to: email,
+                    subject: 'Correo de prueba',
+                    text: `¡Hola! ${name}, ¿cómo estás? Bienvenido a la app de Matthew 🥵`
+                };
+                const transport = nodemailer_1.default.createTransport(config);
+                const info = yield transport.sendMail(mensaje);
+                console.log(info);
+            }
+            catch (error) {
+                console.error("Error al enviar el correo electrónico:", error);
+                res.status(401).json({ error: error });
+            }
+        });
+        yield enviarEmail();
         const saltRounds = 10;
         const hashedPassword = yield bcrypt_1.default.hash(password, saltRounds);
-        const insertQuery = 'INSERT INTO users(name,email,password,phone) VALUES(?,?,?,?)';
-        const insertvalues = [name, email, hashedPassword, phone];
-        const [result] = yield dbconfig_1.pool.query(insertQuery, insertvalues);
+        const insertQuery = 'INSERT INTO users(name, email, password, phone) VALUES(?, ?, ?, ?)';
+        const insertValues = [name, email, hashedPassword, phone];
+        const [result] = yield dbconfig_1.pool.query(insertQuery, insertValues);
         res.status(200).json({
             id: result.insertId,
             name,
@@ -46,7 +87,7 @@ const registerUser = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         });
     }
     catch (error) {
-        console.error('an error ocurred', error);
+        console.error('An error occurred', error);
         res.status(500).json({ message: 'Server error' });
     }
 });
@@ -85,7 +126,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
     catch (error) {
         console.error(error);
-        return res.status(401).json({ message: 'Error en el servidor' });
+        return res.status(422).json({ message: 'Error en el servidor' });
     }
 });
 exports.login = login;

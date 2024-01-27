@@ -3,6 +3,7 @@ import {useNavigate} from "react-router-dom";
 import { useState } from "react";
 import { IoIosMail } from "react-icons/io";
 import { FaLock } from "react-icons/fa";
+import Swal from "sweetalert2";
 import axios from "axios";
 
 const Login = () => {
@@ -11,9 +12,15 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const handleLogin = async (e) => {
     if (email && !password) {
-      toast.warning('Por favor llenar el campo de contraseña.');
+      Swal.fire({
+        icon: "warning",
+        title: "Enter field Password please",
+      });
     } else if (password && !email) {
-      alert('Por favor llenar el campo de correo');
+      Swal.fire({
+        icon: "warning",
+        title: "Enter field Email please",
+      });
     } else if (email && password) {
       e.preventDefault();
       try {
@@ -28,18 +35,43 @@ const Login = () => {
           localStorage.setItem("token", JSON?.stringify(token));
           setTimeout(() => {
             navigate('/home/*');
+            Swal.fire({
+              icon: "success",
+              title: "Accescorrect",
+              text: "Welcome",
+            });
+            window.location.reload();
           }, 300);
         }
       } catch (error) {
         console.error("Error en la solicitud de login:", error);
-        if (error.response && error.response.status === 401) {
-          alert('Correo y/o contraseña incorrecta. Por favor, inténtelo de nuevo.');
-        } else {
-          alert('Correo y/o contraseña incorrecta. Por favor, inténtelo de nuevo.');
+        if (error.response.status === 401) {
+          Swal.fire({
+            icon: "error",
+            title: "the email does not exist",
+            text: "Email not exist ",
+          });
+        } else if (error.response.status === 422) {
+          Swal.fire({
+            icon: "error",
+            title: "Password Incorrect",
+            text: "Password Incorrect STOP",
+          });
+        }else if(error){
+          console.error(error.response.data)
+          Swal.fire({
+            icon: "error",
+            title: "Password Incorrect",
+            text: "Password Incorrect STOP",
+          });
         }
       }
     } else {
-      alert('Por favor, complete los campos requeridos.');
+      Swal.fire({
+        icon: "warning",
+        title: "enter all Fields",
+        text: "error Fields",
+      });
     }
   };
   return (
