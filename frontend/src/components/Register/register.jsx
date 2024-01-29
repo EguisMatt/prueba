@@ -25,6 +25,8 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [emailError, setEmailError] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
+  const [labelColor, setLabelColor] = useState('black');
 
   const handleEmailChange = (e) => {
     const inputEmail = e.target.value;
@@ -32,8 +34,19 @@ const Register = () => {
     setEmailError(!isValidEmailFormat(inputEmail));
   };
 
+  const handleCheckBox = (e) =>{
+    setIsChecked(!isChecked)
+    setLabelColor('black');
+    e.preventDefault();
+  }
+  
+
+  const labelStyle = {
+    color: isChecked ? 'black' : 'red', // Cambia el color a negro si está marcado, a rojo si no
+  };
+
   const notCaracterOrNumbers = (event) => {
-    const regex = /[0-9´*`!#$%&/()=°|{}?¡<>"@+]+$/i;
+    const regex = /[0-9´*`!#$%&,.-_-/()=°|{}?¡<>"@+]+$/;
     if (regex.test(event.key)) {
       event.preventDefault();
     }
@@ -48,7 +61,16 @@ const Register = () => {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     // Resto del código de manejo del formulario
+
     try {
+      if(isChecked === false){
+        setLabelColor('red'); 
+        Swal.fire({
+          icon: "warning",
+          title: 'do not accept the terms' 
+        })
+      return
+      }
       const apiBaseBack = import.meta.env.VITE_URL_BACKEND;
       const response = await axios.post(`${apiBaseBack}/register`, {
         name: name,
@@ -57,6 +79,8 @@ const Register = () => {
         password: password,
         confirmPassword: confirmPassword,
       });
+
+
       if (!isValidEmailFormat(email)) {
         setEmailError(true);
         Swal.fire({
@@ -80,7 +104,7 @@ const Register = () => {
           title: "Error",
           text: "Email has been registered",
         });
-      } else if (response.status === 422) {
+      } else if (response.status === 401) {
         Swal.fire({
           icon: 'warning',
           title: 'Passwords do not match',
@@ -105,7 +129,8 @@ const Register = () => {
         console.error(error.response.data);
         Swal.fire({
           icon: 'error',
-          title: 'Missing fields'
+          title: 'Missing fields',
+          text: "Missing Fields or incorrect field"
         });
       }else if (!isValidEmailFormat(email)){
           setEmailError(true);
@@ -182,8 +207,8 @@ const Register = () => {
         </InputBoxRegister>
 
         <AcceptPolyce>
-          <label>
-            <input type="checkbox" required />
+          <label style={{ color: labelColor }}>
+            <input type="checkbox" checked={isChecked} onClickCapture={handleCheckBox} required />
             Accept The <a href="https://policies.google.com/privacy?hl=es">Polyce Privacite </a>{" "}
           </label>
         </AcceptPolyce>
