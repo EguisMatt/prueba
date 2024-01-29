@@ -41,7 +41,7 @@ const Login = () => {
               text: "Welcome",
             });
             window.location.reload();
-          }, 300);
+          }, 3000);
         }
       } catch (error) {
         console.error("Error en la solicitud de login:", error);
