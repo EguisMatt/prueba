@@ -22,13 +22,13 @@ const registerUser = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     try {
         const { name, email, password, phone, confirmPassword } = req.body;
         if (!name || !email || !password || !phone || !confirmPassword) {
-            throw new Error("missing fields");
+            throw new Error("missing fields 🥵🥵🥵");
         }
-        if (typeof name !== 'string' || typeof email !== 'string' || typeof password !== 'string' || typeof confirmPassword !== 'string') {
+        if (typeof name !== 'string' || typeof (email) !== 'string' || typeof (password) !== 'string' || typeof (confirmPassword) !== 'string') {
             return res.status(422).json({ message: 'error al escribir el tipo de cada dato' });
         }
         if (name.trim() === "" || email.trim() === "" || password.trim() === "" || confirmPassword.trim() === "") {
-            return res.status(400).json({ message: 'the field cannot contain spaces' });
+            return res.status(400).json({ message: 'the field cannot contain spaces empty' });
         }
         const nameRegex = /^[a-zA-Z\s]+$/;
         if (!nameRegex.test(name)) {
@@ -69,7 +69,7 @@ const registerUser = (req, res) => __awaiter(void 0, void 0, void 0, function* (
             }
             catch (error) {
                 console.error("Error al enviar el correo electrónico:", error);
-                res.status(401).json({ error: error });
+                res.status(500).json({ error: error, message: 'server catch error' });
             }
         });
         yield enviarEmail();
@@ -105,7 +105,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             const compassword = yield bcrypt_1.default.compare(password, result[0].password);
             if (!compassword) {
                 console.error('La clave secreta no está definida.');
-                return res.status(500).json({ message: 'password incorrect' });
+                return res.status(401).json({ message: 'password incorrect' });
             }
             else {
                 if (config_1.SECRET_KEY) {
@@ -120,13 +120,13 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             }
         }
         else {
-            res.status(401).json({ message: "not found email" });
+            res.status(404).json({ message: "not found email" });
         }
         // El bloque catch se encuentra aquí para manejar errores específicos si ocurren
     }
     catch (error) {
         console.error(error);
-        return res.status(422).json({ message: 'Error en el servidor' });
+        return res.status(500).json({ message: 'Error en el servidor' });
     }
 });
 exports.login = login;

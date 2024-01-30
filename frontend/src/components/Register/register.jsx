@@ -24,15 +24,8 @@ const Register = () => {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [emailError, setEmailError] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const [labelColor, setLabelColor] = useState('black');
-
-  const handleEmailChange = (e) => {
-    const inputEmail = e.target.value;
-    setEmail(inputEmail);
-    setEmailError(!isValidEmailFormat(inputEmail));
-  };
 
   const handleCheckBox = (e) =>{
     setIsChecked(!isChecked)
@@ -41,12 +34,10 @@ const Register = () => {
   }
   
 
-  const labelStyle = {
-    color: isChecked ? 'black' : 'red', // Cambia el color a negro si está marcado, a rojo si no
-  };
 
+  
   const notCaracterOrNumbers = (event) => {
-    const regex = /[0-9´*`!#$%&,.-_-/()=°|{}?¡<>"@+]+$/;
+    const regex = /[0-9´*`!#$%&,.-_-'¿´´/()=°|{}?¡<>"@+]+$/;
     if (regex.test(event.key)) {
       event.preventDefault();
     }
@@ -60,10 +51,9 @@ const Register = () => {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    // Resto del código de manejo del formulario
-
+    
     try {
-      if(isChecked === false){
+      if(!isChecked){
         setLabelColor('red'); 
         Swal.fire({
           icon: "warning",
@@ -80,10 +70,8 @@ const Register = () => {
         confirmPassword: confirmPassword,
       });
 
-
       if (!isValidEmailFormat(email)) {
-        setEmailError(true);
-        Swal.fire({
+          Swal.fire({
           icon: 'error',
           title: 'Invalid email format',
         });
@@ -98,13 +86,7 @@ const Register = () => {
           });
           console.log(response.data);
         },);
-      } else if (response.status === 409) {
-        Swal.fire({
-          icon: "warning",
-          title: "Error",
-          text: "Email has been registered",
-        });
-      } else if (response.status === 401) {
+      }else if (response.status === 401) {
         Swal.fire({
           icon: 'warning',
           title: 'Passwords do not match',
@@ -125,29 +107,41 @@ const Register = () => {
           text: "Passwords do not match",
         });
         console.error(error);
-      } else if (error) {
+      } else if (error.response.status === 500 ) {
         console.error(error.response.data);
         Swal.fire({
           icon: 'error',
-          title: 'Missing fields',
+          title: 'ERROR',
           text: "Missing Fields or incorrect field"
         });
-      }else if (!isValidEmailFormat(email)){
-          setEmailError(true);
-          Swal.fire({
-            icon: 'error',
-            title: 'Caracter invalido'
-          });
-          console.error(error)
+        console.error(error)
       }else if (error.response.status === 400) {
         console.error(error)
         Swal.fire({
           icon: 'error',
-          title: 'the field canot content space'
+          title: 'the field canot content space empty'
         });
+      }else if (!isValidEmailFormat(email)){
+        Swal.fire({
+          icon: 'error',
+          title: 'Invalid email format!',
+        });
+        console.error(error)
       }
     }
   };
+
+  const LongitudePhone = (e) => {
+    const maxLength = 10;
+    let inputValue = e.target.value;
+    // Limitar la longitud del número
+    if (inputValue.length > maxLength) {
+      inputValue = inputValue.slice(0, maxLength);
+    }
+    // Actualizar el estado o realizar otras acciones
+    setPhone(inputValue);
+  };
+
 
 
   return (
@@ -158,10 +152,8 @@ const Register = () => {
           <input
             type="text"
             placeholder="Name"
-            maxLength={255}
             onKeyDown={notCaracterOrNumbers}
             onChange={(e) => setName(e.target.value)}
-            required
           />
           <MdDriveFileRenameOutline className="logo-register" />
         </InputBoxRegister>
@@ -169,19 +161,17 @@ const Register = () => {
           <input
             type="email"
             placeholder="Email"
-            onChange={handleEmailChange}
-            value={email}
-            required
-            className={emailError ? 'error' : ''}
+            onChange={(e) => setEmail(e.target.value)}
           />
-          <MdEmail id="3" className={`logo-register ${emailError ? 'error' : ''}` } />
+          <MdEmail className="logo-register"/>
         </InputBoxRegister>
         <InputBoxRegister>
           <input
             type="number"
             placeholder="Phone"
-            onChange={(e) => setPhone(e.target.value)}
-            required
+            min={1}
+            value={phone}
+            onChange={LongitudePhone}
           />
           <FaPhone className="logo-register" />
         </InputBoxRegister>
@@ -191,24 +181,22 @@ const Register = () => {
             placeholder="Password"
             maxLength={15}
             onChange={(e) => setPassword(e.target.value)}
-            required
           />
           <FaLock className="logo-register" />
         </InputBoxRegister>
         <InputBoxRegister>
           <input
             type="password"
-            placeholder="ConfirmPassword"
+            placeholder="confirmPassword"
             onChange={(e) => setConfirmPassword(e.target.value)}
             maxLength={15}
-            required
           />
           <FaLock className="logo-register" />
         </InputBoxRegister>
 
         <AcceptPolyce>
           <label style={{ color: labelColor }}>
-            <input type="checkbox" checked={isChecked} onClickCapture={handleCheckBox} required />
+            <input type="checkbox" checked={isChecked} onChange={handleCheckBox} onClickCapture={handleCheckBox} required />
             Accept The <a href="https://policies.google.com/privacy?hl=es">Polyce Privacite </a>{" "}
           </label>
         </AcceptPolyce>

@@ -4,9 +4,9 @@ import { ContainerHome } from "../../styles/HomeStyles/StylesHome";
 function Home() {
   // Datos de ejemplo para la tabla
   const data = [
-    { nombre: 'Usuario1', correo: 'usuario1@example.com', contraseña: '*********' },
-    { nombre: 'Usuario2', correo: 'usuario2@example.com', contraseña: '*********' },
-    { nombre: 'Usuario3', correo: 'usuario3@example.com', contraseña: '*********' },
+    { nombre: 'Usuario1', correo: 'usuario1@example.com', telefono: 10000000010 },
+    { nombre: 'Usuario3', correo: 'usuario3@example.com', telefono: 10000020001 },
+    { nombre: 'Usuario2', correo: 'usuario2@example.com', telefono: 10220100000 },
     // Agrega más filas según sea necesario
   ];
 
@@ -19,7 +19,7 @@ function Home() {
           <tr>
             <th>Nombre</th>
             <th>Correo</th>
-            <th>Contraseña</th>
+            <th>Telefono</th>
           </tr>
         </thead>
         <tbody>
@@ -28,7 +28,7 @@ function Home() {
             <tr key={index}>
               <td>{usuario.nombre}</td>
               <td>{usuario.correo}</td>
-              <td>{usuario.contraseña}</td>
+              <td>{usuario.telefono}</td>
             </tr>
           ))}
         </tbody>

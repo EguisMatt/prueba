@@ -4,7 +4,7 @@ export const WrapperRegister = styled.div`
   width: 420px;
   background-color: transparent;
   border: 2px solid rgba(255,255,255,.2);
-  backdrop-filter: blur(30px);
+  backdrop-filter: blur(50px);
   box-shadow: 0 0 10px rgba(0,0,0, .2);
   color: #fff;
   border-radius: 10px;
@@ -30,11 +30,11 @@ export const InputBoxRegister = styled.div`
       outline: none;
       border-radius: 40px;
       font-size: 16px;
-      color: #fff;
+      color: #ffffff;
       padding: 20px 45px 20px 20px;
       
       &::placeholder{
-        color: #fff;
+        color: #000000;
       }
       &[type="number"]::-webkit-inner-spin-button,
       &[type="number"]::-webkit-outer-spin-button {
@@ -47,7 +47,7 @@ export const InputBoxRegister = styled.div`
 export const AcceptPolyce = styled.div`
   display: flex;
   justify-content: space-between;
-  font-size: 14.5px;
+  font-size: 15.5px;
   margin: -15px 0 15px;
 
   label input{

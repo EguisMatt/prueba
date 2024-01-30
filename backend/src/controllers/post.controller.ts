@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { pool } from "../config/dbconfig";
-import { ResultSetHeader, RowDataPacket, authPlugins } from "mysql2";
+import { ResultSetHeader, RowDataPacket } from "mysql2";
 import { User, Validation } from '../interfaces/user';
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
@@ -12,15 +12,15 @@ export const registerUser = async (req: Request, res: Response) => {
   try {
     const { name, email, password, phone, confirmPassword }: User = req.body;
     if (!name || !email || !password || !phone || !confirmPassword) {
-      throw new Error("missing fields");
+      throw new Error("missing fields 🥵🥵🥵");
     }
 
-    if (typeof name !== 'string' || typeof email !== 'string' || typeof password !== 'string' || typeof confirmPassword !== 'string') {
+    if (typeof name!== 'string' || typeof(email) !== 'string' || typeof(password) !== 'string' || typeof(confirmPassword) !== 'string') {
       return res.status(422).json({ message: 'error al escribir el tipo de cada dato' });
     }
 
     if (name.trim() === "" || email.trim() === "" || password.trim() === "" || confirmPassword.trim() === "") {
-      return res.status(400).json({ message: 'the field cannot contain spaces' });
+      return res.status(400).json({ message: 'the field cannot contain spaces empty' });
     }
 
     const nameRegex = /^[a-zA-Z\s]+$/;
@@ -67,7 +67,7 @@ export const registerUser = async (req: Request, res: Response) => {
         console.log(info);
       } catch (error) {
         console.error("Error al enviar el correo electrónico:", error);
-        res.status(401).json({ error: error });
+        res.status(500).json({ error: error, message: 'server catch error' });
       }
     };
 
@@ -109,7 +109,7 @@ export const login = async (req: Request, res: Response) => {
       
       if (!compassword) {
         console.error('La clave secreta no está definida.');
-        return res.status(500).json({ message: 'password incorrect' });
+        return res.status(401).json({ message: 'password incorrect' });
         } else {
           if (SECRET_KEY) {
             const token = jwt.sign({
@@ -122,12 +122,12 @@ export const login = async (req: Request, res: Response) => {
         }
       }
     }else{
-      res.status(401).json({message: "not found email"})
+      res.status(404).json({message: "not found email"})
     }
 
     // El bloque catch se encuentra aquí para manejar errores específicos si ocurren
   } catch (error) {
     console.error(error);
-    return res.status(422).json({ message: 'Error en el servidor' });
+    return res.status(500).json({ message: 'Error en el servidor' });
   }
 };

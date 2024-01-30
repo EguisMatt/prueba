@@ -45,13 +45,13 @@ const Login = () => {
         }
       } catch (error) {
         console.error("Error en la solicitud de login:", error);
-        if (error.response.status === 401) {
+        if (error.response.status === 404) {
           Swal.fire({
             icon: "error",
             title: "the email does not exist",
             text: "Email not exist ",
           });
-        } else if (error.response.status === 422) {
+        } else if (error.response.status === 401) {
           Swal.fire({
             icon: "error",
             title: "Password Incorrect",
