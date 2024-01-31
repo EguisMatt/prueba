@@ -26,6 +26,13 @@ const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isChecked, setIsChecked] = useState(false);
   const [labelColor, setLabelColor] = useState('black');
+  const [nameError, setNameError] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [phoneError, setPhoneError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [confirmPasswordError, setConfirmPasswordError] = useState('');
+
+
 
   const handleCheckBox = (e) =>{
     setIsChecked(!isChecked)
@@ -52,7 +59,31 @@ const Register = () => {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     
+    setNameError('');
+    setEmailError('');
+    setPhoneError('');
+    setPasswordError('');
+    setConfirmPasswordError('');
+
+
     try {
+
+      if(!name){
+        setNameError('Please enter your name');
+      }
+      if (!email || !isValidEmailFormat(email)) {
+        setEmailError('Invalid email format');
+      }
+      if (!phone) {
+        setPhoneError('Please enter your phone number');
+      }
+      if (!password) {
+        setPasswordError('Please enter a password');
+      }
+      if (!confirmPassword) {
+        setConfirmPasswordError('Please confirm your password');
+      }
+
       if(!isChecked){
         setLabelColor('red'); 
         Swal.fire({
@@ -107,14 +138,14 @@ const Register = () => {
           text: "Passwords do not match",
         });
         console.error(error);
-      } else if (error.response.status === 500 ) {
+      } else if (error.response.status === 404 ) {
         console.error(error.response.data);
         Swal.fire({
           icon: 'error',
           title: 'ERROR',
           text: "Missing Fields or incorrect field"
         });
-        console.error(error)
+
       }else if (error.response.status === 400) {
         console.error(error)
         Swal.fire({
@@ -132,6 +163,7 @@ const Register = () => {
   };
 
   const LongitudePhone = (e) => {
+    setPhoneError('');
     const maxLength = 10;
     let inputValue = e.target.value;
     // Limitar la longitud del número
@@ -153,16 +185,24 @@ const Register = () => {
             type="text"
             placeholder="Name"
             onKeyDown={notCaracterOrNumbers}
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e) => {
+              setName(e.target.value);
+              setNameError('');
+            }}
           />
+          <label style={{color: 'red'}}>{nameError}</label>
           <MdDriveFileRenameOutline className="logo-register" />
         </InputBoxRegister>
         <InputBoxRegister>
           <input
             type="email"
             placeholder="Email"
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) =>{
+              setEmail(e.target.value);
+              setEmailError('');
+            }}
           />
+          <label style={{color: 'red'}}>{emailError}</label>
           <MdEmail className="logo-register"/>
         </InputBoxRegister>
         <InputBoxRegister>
@@ -173,6 +213,7 @@ const Register = () => {
             value={phone}
             onChange={LongitudePhone}
           />
+          <label style={{color: 'red'}}>{phoneError}</label>
           <FaPhone className="logo-register" />
         </InputBoxRegister>
         <InputBoxRegister>
@@ -180,24 +221,32 @@ const Register = () => {
             type="password"
             placeholder="Password"
             maxLength={15}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => {
+              setPassword(e.target.value);
+              setPasswordError('');
+            }}
           />
+          <label style={{color: 'red'}}>{passwordError}</label>
           <FaLock className="logo-register" />
         </InputBoxRegister>
         <InputBoxRegister>
           <input
             type="password"
             placeholder="confirmPassword"
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            onChange={(e) =>{
+              setConfirmPassword(e.target.value);
+              setConfirmPasswordError('');
+            }}
             maxLength={15}
           />
-          <FaLock className="logo-register" />
+          <label style={{color: 'red',  position:'relative', margin: '30'}}>{confirmPasswordError}</label>
+          <FaLock className="logo-register"/>
         </InputBoxRegister>
 
         <AcceptPolyce>
-          <label style={{ color: labelColor }}>
+          <label style={{ color: labelColor,  fontSize:"14px", cursor:'pointer',  userSelect:'none',  display:'flex', alignItems:'center'}} >
             <input type="checkbox" checked={isChecked} onChange={handleCheckBox} onClickCapture={handleCheckBox} required />
-            Accept The <a href="https://policies.google.com/privacy?hl=es">Polyce Privacite </a>{" "}
+            Accept The <a href="https://policies.google.com/privacy?hl=es">Polyce Privacite</a>
           </label>
         </AcceptPolyce>
 

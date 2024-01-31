@@ -48,7 +48,7 @@ export const AcceptPolyce = styled.div`
   display: flex;
   justify-content: space-between;
   font-size: 15.5px;
-  margin: -15px 0 15px;
+  margin: -9px 0 14px;
 
   label input{
     accent-color: #fff;

@@ -12,7 +12,7 @@ export const registerUser = async (req: Request, res: Response) => {
   try {
     const { name, email, password, phone, confirmPassword }: User = req.body;
     if (!name || !email || !password || !phone || !confirmPassword) {
-      throw new Error("missing fields 🥵🥵🥵");
+      return res.status(404).json({message:"missing fields 🥵🥵🥵"});
     }
 
     if (typeof name!== 'string' || typeof(email) !== 'string' || typeof(password) !== 'string' || typeof(confirmPassword) !== 'string') {

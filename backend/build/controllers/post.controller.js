@@ -22,7 +22,7 @@ const registerUser = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     try {
         const { name, email, password, phone, confirmPassword } = req.body;
         if (!name || !email || !password || !phone || !confirmPassword) {
-            throw new Error("missing fields 🥵🥵🥵");
+            return res.status(404).json({ message: "missing fields 🥵🥵🥵" });
         }
         if (typeof name !== 'string' || typeof (email) !== 'string' || typeof (password) !== 'string' || typeof (confirmPassword) !== 'string') {
             return res.status(422).json({ message: 'error al escribir el tipo de cada dato' });
