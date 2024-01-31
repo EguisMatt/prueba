@@ -33,7 +33,7 @@ export const InputBox = styled.div`
     padding: 20px 45px 20px 20px;
 
     &::placeholder{
-      color: #fff;
+      color: #000000;
     }
   }
 `;
@@ -41,27 +41,6 @@ export const InputBox = styled.div`
 
 export const Form = styled.form`
 
-`;
-
-export const RememberForgot = styled.div`
-  display: flex;
-  justify-content: space-between;
-  font-size: 14.5px;
-  margin: -15px 0 15px;
-
-  label input{
-    accent-color: #fff;
-    margin-right: 4px;
-  }
-
-  a{
-    color: #fff;
-    text-decoration: none
-  }
-
-  a &:hover{
-    text-decoration: underline;
-  }
 `;
 
 export const ButtonSubmit = styled.button`

@@ -34,6 +34,7 @@ const Register = () => {
 
 
 
+
   const handleCheckBox = (e) =>{
     setIsChecked(!isChecked)
     setLabelColor('black');
@@ -43,10 +44,10 @@ const Register = () => {
 
 
   
-  const notCaracterOrNumbers = (event) => {
+  const notCaracterOrNumbers = (e) => {
     const regex = /[0-9´*`!#$%&,.-_-'¿´´/()=°|{}?¡<>"@+]+$/;
-    if (regex.test(event.key)) {
-      event.preventDefault();
+    if (regex.test(e.key)) {
+      e.preventDefault();
     }
   }
 
@@ -76,6 +77,12 @@ const Register = () => {
       }
       if (!phone) {
         setPhoneError('Please enter your phone number');
+      }else if(phone.length < 10){
+          Swal.fire({
+            icon: 'error',
+            title: 'the number is short',
+          });
+          setPhoneError("number very short")
       }
       if (!password) {
         setPasswordError('Please enter a password');
@@ -83,6 +90,7 @@ const Register = () => {
       if (!confirmPassword) {
         setConfirmPasswordError('Please confirm your password');
       }
+      
 
       if(!isChecked){
         setLabelColor('red'); 
@@ -117,11 +125,6 @@ const Register = () => {
           });
           console.log(response.data);
         },);
-      }else if (response.status === 401) {
-        Swal.fire({
-          icon: 'warning',
-          title: 'Passwords do not match',
-        });
       }
     } catch (error) {
       if (error.response.status === 409) {
@@ -130,6 +133,7 @@ const Register = () => {
           title: "Error",
           text: "The Email Already Exists.",
         });
+        setEmailError('Email already exists')
         console.error(error);
       } else if (error.response.status === 401) {
         Swal.fire({
@@ -137,6 +141,7 @@ const Register = () => {
           title: "Error",
           text: "Passwords do not match",
         });
+        setConfirmPasswordError('please enter the same password')
         console.error(error);
       } else if (error.response.status === 404 ) {
         console.error(error.response.data);
@@ -165,10 +170,13 @@ const Register = () => {
   const LongitudePhone = (e) => {
     setPhoneError('');
     const maxLength = 10;
-    let inputValue = e.target.value;
+    const min = 10;
+    let inputValue = e.target.value.replace(/[^0-9]/g, '');
     // Limitar la longitud del número
     if (inputValue.length > maxLength) {
       inputValue = inputValue.slice(0, maxLength);
+    }else if(inputValue.length < min){
+      setPhoneError("Please write at least 10 digits");
     }
     // Actualizar el estado o realizar otras acciones
     setPhone(inputValue);
@@ -207,9 +215,8 @@ const Register = () => {
         </InputBoxRegister>
         <InputBoxRegister>
           <input
-            type="number"
+            type="tel"
             placeholder="Phone"
-            min={1}
             value={phone}
             onChange={LongitudePhone}
           />
