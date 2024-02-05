@@ -72,8 +72,10 @@ const Register = () => {
       if(!name){
         setNameError('Please enter your name');
       }
-      if (!email || !isValidEmailFormat(email)) {
-        setEmailError('Invalid email format');
+      if (!email) {
+        setEmailError('Enter email please');
+      }else if (!isValidEmailFormat(email)){
+        setEmailError('Please enter a valid email')
       }
       if (!phone) {
         setPhoneError('Please enter your phone number');
@@ -124,7 +126,7 @@ const Register = () => {
             title: 'Registered',
           });
           console.log(response.data);
-        },);
+        },1000);
       }
     } catch (error) {
       if (error.response.status === 409) {

@@ -30,7 +30,7 @@ const registerUser = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         if (name.trim() === "" || email.trim() === "" || password.trim() === "" || confirmPassword.trim() === "") {
             return res.status(400).json({ message: 'the field cannot contain spaces empty' });
         }
-        const nameRegex = /^[a-zA-Z\s]+$/;
+        const nameRegex = /^[a-zA-Z´áéíóú\s]+$/;
         if (!nameRegex.test(name)) {
             return res.status(422).json({ message: 'invalid characters in the "name" field' });
         }
@@ -104,7 +104,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         if (result.length > 0) {
             const compassword = yield bcrypt_1.default.compare(password, result[0].password);
             if (!compassword) {
-                console.error('La clave secreta no está definida.');
+                console.error('contraseña incorrecta');
                 return res.status(401).json({ message: 'password incorrect' });
             }
             else {

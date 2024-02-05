@@ -23,7 +23,7 @@ export const registerUser = async (req: Request, res: Response) => {
       return res.status(400).json({ message: 'the field cannot contain spaces empty' });
     }
 
-    const nameRegex = /^[a-zA-Z\s]+$/;
+    const nameRegex = /^[a-zA-Z´áéíóú\s]+$/;
     if (!nameRegex.test(name)) {
       return res.status(422).json({ message: 'invalid characters in the "name" field' });
     }
@@ -108,7 +108,7 @@ export const login = async (req: Request, res: Response) => {
       const compassword = await bcrypt.compare(password, result[0].password);
       
       if (!compassword) {
-        console.error('La clave secreta no está definida.');
+        console.error('contraseña incorrecta');
         return res.status(401).json({ message: 'password incorrect' });
         } else {
           if (SECRET_KEY) {

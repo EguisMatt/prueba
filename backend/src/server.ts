@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import { PORT } from './config/config';
 import { postrouter } from './routes/post.router';
+import { getrouter } from './routes/get.router';
 const app = express()
 
 app.use(express.json())
@@ -11,4 +12,4 @@ app.listen(PORT, () =>{
   console.log(`server is running on PORT ${PORT}`);
 })
 
-app.use("/api",postrouter)
+app.use("/api",postrouter, getrouter)

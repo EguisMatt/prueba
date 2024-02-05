@@ -48,8 +48,8 @@ const Login = () => {
               title: "Accescorrect",
               text: "Welcome",
             });
-          });
-          navigate('/home/*');
+            navigate('/home');
+          },1000);
         }
       } catch (error) {
         console.error("Error en la solicitud de login:", error);
@@ -96,7 +96,7 @@ const Login = () => {
           <ButtonSubmit onClick={handleLogin}>Login</ButtonSubmit>  
 
           <RegisterLink>
-            <p>Don`t have an account <a href="/register/*">register</a></p>
+            <p>Don`t have an account ? <a href="/register/*">register</a></p>
           </RegisterLink>
         </Form>
     </Wrapper>

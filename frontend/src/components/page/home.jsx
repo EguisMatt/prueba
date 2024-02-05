@@ -1,38 +1,64 @@
-import { ContainerHome } from "../../styles/HomeStyles/StylesHome";
-
+import { useState , useEffect} from "react";
+import { IoMdExit } from "react-icons/io";
+import { ContainerHome, Table, Tbody,Td, Th,Thead,Tr, TitleHome, Text,ContenExit } from "../../styles/HomeStyles/StylesHome";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 // Define el componente Home
 function Home() {
+  const [users, setUsers] = useState([])
   // Datos de ejemplo para la tabla
-  const data = [
-    { nombre: 'Usuario1', correo: 'usuario1@example.com', telefono: 10000000010 },
-    { nombre: 'Usuario3', correo: 'usuario3@example.com', telefono: 10000020001 },
-    { nombre: 'Usuario2', correo: 'usuario2@example.com', telefono: 10220100000 },
-    // Agrega más filas según sea necesario
-  ];
+  const apiBaseBack = import.meta.env.VITE_URL_BACKEND
+  const navigate = useNavigate();
+
+  const getUsers = async () => {
+    try{
+      const res = await axios.get(`${apiBaseBack}/getUsers`);
+      setUsers(res.data);
+    }catch(error){
+      console.log("Error al obtener los usuarios: ", error)
+    }
+  }
+
+  const logOut = () => { 
+    localStorage.removeItem("token"); 
+    window.location.reload();
+    navigate("/")
+  }
+
+  useEffect(() => {
+    getUsers();
+  });
 
   return (
     <ContainerHome>
-      <h2>Tabla de Usuarios</h2>
-      {/* Tabla con campos de nombre, correo y contraseña */}
-      <table border="1" className="user-table">
-        <thead>
-          <tr>
-            <th>Nombre</th>
-            <th>Correo</th>
-            <th>Telefono</th>
-          </tr>
-        </thead>
-        <tbody>
-          {/* Mapea los datos para generar las filas de la tabla */}
-          {data.map((usuario, index) => (
-            <tr key={index}>
-              <td>{usuario.nombre}</td>
-              <td>{usuario.correo}</td>
-              <td>{usuario.telefono}</td>
-            </tr>
+    <TitleHome>
+      <ContenExit onClick={logOut}>
+        <IoMdExit  style={{fontSize: '20px'}} className="exit" /> exit
+      </ContenExit>
+      <Text>
+        Tabla de usuarios
+      </Text>
+    </TitleHome>
+      <Table>
+        <Thead>
+        <Tr>
+          <Th>ID</Th>
+          <Th>Nombre</Th>
+          <Th>Email</Th>
+          <Th>Phone</Th>
+        </Tr>
+        </Thead>
+        <Tbody>
+          {users.map((item, index) => (
+            <Tr key={index}>
+              <Td>{item.id}</Td>
+              <Td>{item.name}</Td>
+              <Td>{item.email}</Td>
+              <Td>{item.phone}</Td>
+            </Tr>
           ))}
-        </tbody>
-      </table>
+        </Tbody>
+      </Table>
     </ContainerHome>
   );
 }
