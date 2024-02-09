@@ -13,7 +13,7 @@ const MainRoute = () => {
       <Routes>
         <Route path="/" element={<Login />} />
         {isUserLoggedIn ? (
-          <Route path="/home/*" element={<Home />} />
+          <Route path="/home/*" element={<Home/>} />
         ) : (
           <Route path="/home/*" element={<Navigate to="/" />} />
         )}

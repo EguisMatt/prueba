@@ -48,8 +48,8 @@ const Login = () => {
               title: "Accescorrect",
               text: "Welcome",
             });
-            navigate('/home');
-          },1000);
+            navigate('/home/*');
+          },3000);
         }
       } catch (error) {
         console.error("Error en la solicitud de login:", error);

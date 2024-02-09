@@ -36,7 +36,7 @@ function Home() {
         <IoMdExit  style={{fontSize: '20px'}} className="exit" /> exit
       </ContenExit>
       <Text>
-        Tabla de usuarios
+          Tabla de usuarios                                                                                              
       </Text>
     </TitleHome>
       <Table>

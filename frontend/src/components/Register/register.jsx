@@ -31,7 +31,8 @@ const Register = () => {
   const [phoneError, setPhoneError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
-
+  const [passwordSave, setPasswordSave] = useState('');
+  const [colorAlert, setColorAlert] = useState('red')
 
 
 
@@ -65,8 +66,7 @@ const Register = () => {
     setPhoneError('');
     setPasswordError('');
     setConfirmPasswordError('');
-
-
+    setPasswordSave('');
     try {
 
       if(!name){
@@ -85,6 +85,7 @@ const Register = () => {
             title: 'the number is short',
           });
           setPhoneError("number very short")
+          return;
       }
       if (!password) {
         setPasswordError('Please enter a password');
@@ -183,7 +184,30 @@ const Register = () => {
     // Actualizar el estado o realizar otras acciones
     setPhone(inputValue);
   };
+  const changePassword = (e) => {
+    setPasswordError('');
+    setPasswordSave('')
+    const valuePassword = e.target.value;
+    const especialCaracter = /[!@#$%^&*()_+{}[\]:;<>,.?~\\/-]/;
+    const contentMayus = /[A-Z]/;
 
+    if(valuePassword.length < 7){
+      setPasswordError('password its very short');
+      setColorAlert('red');
+      return;
+    }else if(valuePassword.length >= 12 && especialCaracter.test(valuePassword) && contentMayus.test(valuePassword)){
+      setPasswordSave('password is Save');
+      setColorAlert('green');
+    }else if(valuePassword.length < 12 && especialCaracter.test(valuePassword) &&  contentMayus.test(valuePassword)){
+      setPasswordSave('password is media');
+      setColorAlert('yellow');
+    }else{
+      setPasswordSave('the password is not secure')
+      setColorAlert('red');
+    }
+
+    setPassword(valuePassword)
+  };
 
 
   return (
@@ -229,16 +253,13 @@ const Register = () => {
           <input
             type="password"
             placeholder="Password"
-            maxLength={15}
-            onChange={(e) => {
-              setPassword(e.target.value);
-              setPasswordError('');
-            }}
-          />
+            maxLength={28}
+            onChange={changePassword}/>
+          <label style={{color: colorAlert}}>{passwordSave}</label>
           <label style={{color: 'red'}}>{passwordError}</label>
-          <FaLock className="logo-register" />
+          <FaLock className="logo-register"/>
         </InputBoxRegister>
-        <InputBoxRegister>
+        <InputBoxRegister>                
           <input
             type="password"
             placeholder="confirmPassword"
